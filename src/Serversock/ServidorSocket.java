@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Serversock;
+import Serversock.SocketCodes;
 
 /**
  *
@@ -16,6 +17,10 @@ public class ServidorSocket {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        SocketCodes sc = new SocketCodes();
+        sc.start();
+
+        
     }
     
 }
