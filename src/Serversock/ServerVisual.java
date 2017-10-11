@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Serversock;
+import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -137,24 +138,27 @@ public class ServerVisual extends javax.swing.JFrame {
 
     private void BstartstopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BstartstopActionPerformed
         // TODO add your handling code here:
-        //codigo = new ServerCode(5000);
-        if(Bstartstop.getText().equalsIgnoreCase("Iniciar")){
-                Lstatus.setText("online");
-        Bstartstop.setText("Detener");
-
-       // Lpuerto.setText(""+codigo.getPort());
-        
-        
-        }else{
-            if(Bstartstop.getText().equalsIgnoreCase("Detener")){
-        Lstatus.setText("offline");
-        Bstartstop.setText("Iniciar");
- 
-        }
-        }
-        
-        
-        
+        SocketCodes sc = new SocketCodes();
+        if (Bstartstop.getText().equalsIgnoreCase("Iniciar")) {
+            Lstatus.setText("Online");
+            Lstatus.setForeground(Color.orange);
+            Bstartstop.setText("Detener");
+            sc.setPort(5000);
+            Lpuerto.setText(sc.getPort()+"");
+            sc.start();
+            
+        } else {
+            if (Bstartstop.getText().equalsIgnoreCase("Detener")) {
+                Lstatus.setText("offline");
+                Lstatus.setForeground(Color.BLACK);
+                Bstartstop.setText("Iniciar");
+                //envio falso
+                sc.setFlag(false);
+                SocketEnvio  se = new SocketEnvio("localhost", 5000);
+                se.enviando(new Mp3Object());
+                System.out.println("Is alive: "+sc.isAlive());
+            }
+        }      
     }//GEN-LAST:event_BstartstopActionPerformed
 
     public void setter(){
