@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,43 +21,50 @@ import java.util.logging.Logger;
  * @author Chack
  */
 public class SocketCodes extends Thread {
+
     private InputStream in = null;
     private ObjectInputStream obis = null;
     private Mp3Object tags;
-    private int port = 0;
+    private static int port;
     private ServerSocket servidor = null;
-    private Socket sock=null;
-    private Boolean flag = true;
+    private Socket sock = null;
+    static boolean flagx = true;
 
-    public SocketCodes() {
+    public SocketCodes(String name, int port) {
+        super(name);
+        this.port = port;
+        try {
+            servidor = new ServerSocket(port);
+        } catch (IOException ex) {
+            Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     public void run() {//creando Servidor. Puerto 5000.
-    try {
-            servidor = new ServerSocket(getPort());
-            //servidor.setSoTimeout(5000);
-            while (flag) {            
-              sock = servidor.accept();
-              extrayendo();
-              cerrarConeccion();
+        try {
+            System.out.println("port " + getPort());
+            while (flagx) {
+                System.out.println("flag antes de servidor -- " + flagx);
+                sock = servidor.accept();
+                extrayendo();
+                cerrarConeccion();
             }
         } catch (SocketException ex) {
-             System.out.println("(Run): "+ex.getMessage());
+            System.out.println("(Run): " + ex.getMessage());
             //Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
-    
-    
-    public void extrayendo(){
-            tags = new Mp3Object();
+
+    public void extrayendo() {
+        tags = new Mp3Object();
         try {
             in = sock.getInputStream();
             obis = new ObjectInputStream(in);
             tags = (Mp3Object) obis.readObject();
-            System.out.println("datos: "+ tags.getArtist()+" "+tags.getTitle());
+            System.out.println("datos: " + tags.getArtist() + " " + tags.getTitle());
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -74,30 +82,17 @@ public class SocketCodes extends Thread {
     /**
      * @param port the port to set
      */
-    public void setPort(int port) {
-        this.port = port;
-    }
-    
-    
-    
-    public void cerrarConeccion(){
-        try {
-            servidor.close();
-            sock.close();
-        } catch (IOException ex) {
-            System.out.println("B "+ex.getMessage());
-            Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
+    public static void setPort(int port) {
+        SocketCodes.port = port;
     }
 
-    /**
-     * @param flag the flag to set
-     */
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
+    public void cerrarConeccion() {
+        try {
+            sock.close();
+        } catch (IOException ex) {
+            System.out.println("B " + ex.getMessage());
+            Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    
-    
+
 }

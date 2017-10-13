@@ -4,17 +4,21 @@
  * and open the template in the editor.
  */
 package Serversock;
+
 import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author Chack
  */
 public class ServerVisual extends javax.swing.JFrame {
     //ServerCode codigo;
+    SocketCodes sc = new SocketCodes("sevidor-1", 5000);
+    Thread tr = new Thread(sc);
     /**
      * Creates new form ServerVisual
      */
@@ -34,7 +38,7 @@ public class ServerVisual extends javax.swing.JFrame {
 
         Lserver = new javax.swing.JLabel();
         Lcliente = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        Tremote = new javax.swing.JLabel();
         Bstartstop = new javax.swing.JButton();
         Lstatus = new javax.swing.JLabel();
         Lip = new javax.swing.JLabel();
@@ -50,7 +54,7 @@ public class ServerVisual extends javax.swing.JFrame {
 
         Lcliente.setText("Clientes: ");
 
-        jLabel1.setText("????");
+        Tremote.setText("0.0.0.0");
 
         Bstartstop.setText("Iniciar");
         Bstartstop.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +99,7 @@ public class ServerVisual extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(Lipinterna)
-                                            .addComponent(jLabel1)
+                                            .addComponent(Tremote)
                                             .addComponent(Lipexterna)
                                             .addComponent(Lpuerto)))))
                             .addComponent(Lip2)
@@ -115,7 +119,7 @@ public class ServerVisual extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Lcliente)
-                    .addComponent(jLabel1))
+                    .addComponent(Tremote))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Lip)
@@ -138,40 +142,52 @@ public class ServerVisual extends javax.swing.JFrame {
 
     private void BstartstopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BstartstopActionPerformed
         // TODO add your handling code here:
-        SocketCodes sc = new SocketCodes();
+        //SocketCodes.setPort(3000);
+
         if (Bstartstop.getText().equalsIgnoreCase("Iniciar")) {
             Lstatus.setText("Online");
             Lstatus.setForeground(Color.orange);
             Bstartstop.setText("Detener");
-            sc.setPort(5000);
-            Lpuerto.setText(sc.getPort()+"");
-            sc.start();
-            
+            Lpuerto.setText(sc.getPort() + "");
+            SocketCodes.flagx = true;
+            tr.start();
+
         } else {
             if (Bstartstop.getText().equalsIgnoreCase("Detener")) {
+                System.out.println("Detener");
                 Lstatus.setText("offline");
                 Lstatus.setForeground(Color.BLACK);
                 Bstartstop.setText("Iniciar");
+                SocketCodes.flagx = false;
                 //envio falso
-                sc.setFlag(false);
-                SocketEnvio  se = new SocketEnvio("localhost", 5000);
-                se.enviando(new Mp3Object());
-                System.out.println("Is alive: "+sc.isAlive());
+                if (tr.isAlive()) {
+                    SocketEnvio se = new SocketEnvio("localhost", 5000);
+                    se.enviando(new Mp3Object());
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ServerVisual.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (!tr.isAlive()) {
+                        tr = new Thread(sc);
+                        System.out.println("nuevo hilo " + tr.getName());
+                    }
+                }
             }
-        }      
+        }
     }//GEN-LAST:event_BstartstopActionPerformed
 
-    public void setter(){
+    public void setter() {
         //obteniendo ip
         try {
             InetAddress ips = InetAddress.getLocalHost();
             Lipinterna.setText(ips.getHostAddress());
             Lipexterna.setText("");
-            
         } catch (UnknownHostException ex) {
             Logger.getLogger(ServerVisual.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -202,7 +218,6 @@ public class ServerVisual extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -222,6 +237,6 @@ public class ServerVisual extends javax.swing.JFrame {
     private javax.swing.JLabel Lpuerto;
     private javax.swing.JLabel Lserver;
     private javax.swing.JLabel Lstatus;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel Tremote;
     // End of variables declaration//GEN-END:variables
 }
