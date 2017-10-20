@@ -5,14 +5,16 @@
  */
 package Serversock;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +32,7 @@ public class SocketCodes extends Thread {
     private Socket sock = null;
     static boolean flagx = true;
 
-    public SocketCodes(String name, int port) {
-        super(name);
+    public SocketCodes(int port) {
         this.port = port;
         try {
             servidor = new ServerSocket(port);
@@ -42,15 +43,15 @@ public class SocketCodes extends Thread {
 
     public void run() {//creando Servidor. Puerto 5000.
         try {
-            System.out.println("port " + getPort());
             while (flagx) {
-                System.out.println("flag antes de servidor -- " + flagx);
+                System.out.println("Esperando por archivos...");
                 sock = servidor.accept();
+                System.out.println("cliente ip " + sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
                 extrayendo();
                 cerrarConeccion();
             }
-        } catch (SocketException ex) {
-            System.out.println("(Run): " + ex.getMessage());
+        } catch (SocketException ex) {//este error se produce por que envio un objeto vacio para poder detener el servidor.
+            System.out.println("run --> Socket Exception " + ex.getMessage());
             //Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,8 +65,31 @@ public class SocketCodes extends Thread {
             in = sock.getInputStream();
             obis = new ObjectInputStream(in);
             tags = (Mp3Object) obis.readObject();
-            System.out.println("datos: " + tags.getArtist() + " " + tags.getTitle());
-        } catch (IOException ex) {
+            //System.out.println("datos: " + tags.getArtist() + " - " + tags.getTitle()+" "+tags.getMp3Files().getName());
+            InputStream in = new FileInputStream(tags.getMp3Files());
+            
+            String os = System.getProperty("os.name").toLowerCase();
+            FileOutputStream out;
+                    if(os.contains("windows")){
+                        System.out.println(System.getProperty("os.name").toLowerCase());
+                 out = new FileOutputStream("C:\\received\\" + tags.getArtist() + " - " + tags.getTitle() + ".mp3");   
+                             //FileOutputStream out = new FileOutputStream("C:\\received\\" + tags.getArtist() + " - " + tags.getTitle() + ".mp3");
+            byte[] buffer = new byte[256];//(int) tags.getMp3Files().length()
+            int contar = 0;
+            while ((contar = in.read(buffer)) > 0) {
+                out.write(buffer, 0, contar);
+            }
+
+            out.close();
+            in.close();
+                    }else{
+                        System.out.println("linux");
+                    }
+
+
+        } catch(NullPointerException e){
+            System.out.println("Error -->Extrayendo -->"+e.getMessage());
+        }catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,7 +114,7 @@ public class SocketCodes extends Thread {
         try {
             sock.close();
         } catch (IOException ex) {
-            System.out.println("B " + ex.getMessage());
+            System.out.println("cerrarConeccion --> IOException" + ex.getMessage());
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

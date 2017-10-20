@@ -1,11 +1,9 @@
-package Serversock;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+package Serversock;
 
 import java.io.File;
 import java.io.Serializable;
@@ -17,15 +15,17 @@ import java.io.Serializable;
 public class Mp3Object implements Serializable{
     private String Artist;
     private String Title;
-    private File Mp3File;
+    private String Anime;
+    private File Mp3Files;
 
     public Mp3Object() {
     }
 
-    public Mp3Object(String Artist, String Title, File Mp3File) {
+    public Mp3Object(String Artist, String Title, String Anime, File Mp3Files) {
         this.Artist = Artist;
         this.Title = Title;
-        this.Mp3File = Mp3File;
+        this.Anime = Anime;
+        this.Mp3Files = Mp3Files;
     }
 
     /**
@@ -57,22 +57,31 @@ public class Mp3Object implements Serializable{
     }
 
     /**
-     * @return the Mp3File
+     * @return the Anime
      */
-    public File getMp3File() {
-        return Mp3File;
+    public String getAnime() {
+        return Anime;
     }
 
     /**
-     * @param Mp3File the Mp3File to set
+     * @param Anime the Anime to set
      */
-    public void setMp3File(File Mp3File) {
-        this.Mp3File = Mp3File;
+    public void setAnime(String Anime) {
+        this.Anime = Anime;
     }
 
+    /**
+     * @return the Mp3Files
+     */
+    public File getMp3Files() {
+        return Mp3Files;
+    }
 
-
+    /**
+     * @param Mp3Files the Mp3Files to set
+     */
+    public void setMp3Files(File Mp3Files) {
+        this.Mp3Files = Mp3Files;
+    }
     
-    
-    
-}
+   }

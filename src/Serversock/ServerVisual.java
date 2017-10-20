@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class ServerVisual extends javax.swing.JFrame {
     //ServerCode codigo;
-    SocketCodes sc = new SocketCodes("sevidor-1", 5000);
+    SocketCodes sc = new SocketCodes(5000);
     Thread tr = new Thread(sc);
     /**
      * Creates new form ServerVisual
@@ -50,10 +50,13 @@ public class ServerVisual extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Lserver.setText("Server");
+        Lserver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Lserver.setText("Servidor");
 
+        Lcliente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Lcliente.setText("Clientes: ");
 
+        Tremote.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Tremote.setText("0.0.0.0");
 
         Bstartstop.setText("Iniciar");
@@ -63,18 +66,25 @@ public class ServerVisual extends javax.swing.JFrame {
             }
         });
 
+        Lstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Lstatus.setText("Offline");
 
+        Lip.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Lip.setText("IP Interna:");
 
+        Lipinterna.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Lipinterna.setText("0.0.0.0");
 
+        Lip2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Lip2.setText("IP Externa:");
 
+        Lipexterna.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Lipexterna.setText("0.0.0.0");
 
+        Lp1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Lp1.setText("Puerto:");
 
+        Lpuerto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Lpuerto.setText("00000");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -82,57 +92,59 @@ public class ServerVisual extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(122, 122, 122)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Lcliente, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                                .addComponent(Lserver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Lstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Tremote, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(279, 279, 279))
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(Lip)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Lcliente)
-                                    .addComponent(Lserver))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(Lstatus))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Lipinterna)
-                                            .addComponent(Tremote)
-                                            .addComponent(Lipexterna)
-                                            .addComponent(Lpuerto)))))
-                            .addComponent(Lip2)
-                            .addComponent(Lp1)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(Lipinterna, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(Lp1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(29, 29, 29)
+                            .addComponent(Lpuerto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(147, 147, 147)
+                            .addComponent(Bstartstop)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(269, 269, 269)
-                        .addComponent(Bstartstop)))
-                .addContainerGap(285, Short.MAX_VALUE))
+                        .addComponent(Lip2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Lipexterna, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Lserver)
-                    .addComponent(Lstatus))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Lcliente)
-                    .addComponent(Tremote))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Lip)
-                    .addComponent(Lipinterna))
+                    .addComponent(Lserver, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Lstatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Lip2)
-                    .addComponent(Lipexterna))
+                    .addComponent(Lcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Tremote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Lp1)
-                    .addComponent(Lpuerto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                    .addComponent(Lip, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Lipinterna, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Lip2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Lipexterna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Lpuerto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Lp1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
                 .addComponent(Bstartstop)
                 .addContainerGap())
         );
@@ -142,16 +154,14 @@ public class ServerVisual extends javax.swing.JFrame {
 
     private void BstartstopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BstartstopActionPerformed
         // TODO add your handling code here:
-        //SocketCodes.setPort(3000);
-
         if (Bstartstop.getText().equalsIgnoreCase("Iniciar")) {
             Lstatus.setText("Online");
-            Lstatus.setForeground(Color.orange);
+            Lstatus.setForeground(new Color(21, 155, 68));
             Bstartstop.setText("Detener");
             Lpuerto.setText(sc.getPort() + "");
             SocketCodes.flagx = true;
             tr.start();
-
+            
         } else {
             if (Bstartstop.getText().equalsIgnoreCase("Detener")) {
                 System.out.println("Detener");
@@ -182,7 +192,7 @@ public class ServerVisual extends javax.swing.JFrame {
         try {
             InetAddress ips = InetAddress.getLocalHost();
             Lipinterna.setText(ips.getHostAddress());
-            Lipexterna.setText("");
+            Lipexterna.setText(new SocketEnvio().ips());
         } catch (UnknownHostException ex) {
             Logger.getLogger(ServerVisual.class.getName()).log(Level.SEVERE, null, ex);
         }
