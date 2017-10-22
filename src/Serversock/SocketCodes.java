@@ -52,7 +52,6 @@ public class SocketCodes extends Thread {
             }
         } catch (SocketException ex) {//este error se produce por que envio un objeto vacio para poder detener el servidor.
             System.out.println("run --> Socket Exception " + ex.getMessage());
-            //Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,31 +64,19 @@ public class SocketCodes extends Thread {
             in = sock.getInputStream();
             obis = new ObjectInputStream(in);
             tags = (Mp3Object) obis.readObject();
-            //System.out.println("datos: " + tags.getArtist() + " - " + tags.getTitle()+" "+tags.getMp3Files().getName());
             InputStream in = new FileInputStream(tags.getMp3Files());
-            
-            String os = System.getProperty("os.name").toLowerCase();
             FileOutputStream out;
-                    if(os.contains("windows")){
-                        System.out.println(System.getProperty("os.name").toLowerCase());
-                 out = new FileOutputStream("C:\\received\\" + tags.getArtist() + " - " + tags.getTitle() + ".mp3");   
-                             //FileOutputStream out = new FileOutputStream("C:\\received\\" + tags.getArtist() + " - " + tags.getTitle() + ".mp3");
-            byte[] buffer = new byte[256];//(int) tags.getMp3Files().length()
-            int contar = 0;
-            while ((contar = in.read(buffer)) > 0) {
-                out.write(buffer, 0, contar);
-            }
-
-            out.close();
-            in.close();
-                    }else{
-                        System.out.println("linux");
-                    }
-
-
-        } catch(NullPointerException e){
-            System.out.println("Error -->Extrayendo -->"+e.getMessage());
-        }catch (IOException ex) {
+                out = new FileOutputStream(System.getProperty("user.home")+"\\" + tags.getArtist() + " - " + tags.getTitle() + ".mp3");
+                byte[] buffer = new byte[256];//(int) tags.getMp3Files().length()
+                int contar = 0;
+                while ((contar = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, contar);
+                }
+                out.close();
+                in.close();
+        } catch (NullPointerException e) {
+            System.out.println("Error -->Extrayendo -->" + e.getMessage());
+        } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
