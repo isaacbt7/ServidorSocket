@@ -5,6 +5,7 @@
  */
 package Serversock;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,8 +16,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,6 +38,7 @@ public class SocketCodes extends Thread {
     public SocketCodes(int port) {
         this.port = port;
         try {
+            System.out.println("creando servidor ");
             servidor = new ServerSocket(port);
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,7 +52,8 @@ public class SocketCodes extends Thread {
                 sock = servidor.accept();
                 System.out.println("cliente ip " + sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
                 extrayendo();
-                cerrarConeccion();
+                cerrarSocket();
+                System.out.println("A recibido un archivo");
             }
         } catch (SocketException ex) {//este error se produce por que envio un objeto vacio para poder detener el servidor.
             System.out.println("run --> Socket Exception " + ex.getMessage());
@@ -61,21 +66,17 @@ public class SocketCodes extends Thread {
     public void extrayendo() {
         tags = new Mp3Object();
         try {
-            in = sock.getInputStream();
-            obis = new ObjectInputStream(in);
-            tags = (Mp3Object) obis.readObject();
-            InputStream in = new FileInputStream(tags.getMp3Files());
-            FileOutputStream out;
-                out = new FileOutputStream(System.getProperty("user.home")+"\\" + tags.getArtist() + " - " + tags.getTitle() + ".mp3");
-                byte[] buffer = new byte[256];//(int) tags.getMp3Files().length()
-                int contar = 0;
-                while ((contar = in.read(buffer)) > 0) {
-                    out.write(buffer, 0, contar);
-                }
+                in = sock.getInputStream();
+                obis = new ObjectInputStream(in);
+                tags = (Mp3Object) obis.readObject();
+                String kk = Paths.get(System.getProperty("user.home"), tags.getArtist() + " - " + tags.getTitle() + ".mp3").toString();
+                FileOutputStream out = new FileOutputStream(kk);
+                out.write(tags.getMp3Files());
                 out.close();
                 in.close();
         } catch (NullPointerException e) {
             System.out.println("Error -->Extrayendo -->" + e.getMessage());
+            //cerrarServidor();
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -97,11 +98,20 @@ public class SocketCodes extends Thread {
         SocketCodes.port = port;
     }
 
-    public void cerrarConeccion() {
+    public void cerrarSocket() {
         try {
             sock.close();
         } catch (IOException ex) {
             System.out.println("cerrarConeccion --> IOException" + ex.getMessage());
+            Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void cerrarServidor(){
+        try {
+            servidor.close();
+            System.out.println("cerrando servidor "+servidor.isClosed());
+        } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

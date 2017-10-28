@@ -16,17 +16,7 @@ public class Mp3Object implements Serializable{
     private String Artist;
     private String Title;
     private String Anime;
-    private File Mp3Files;
-
-    public Mp3Object() {
-    }
-
-    public Mp3Object(String Artist, String Title, String Anime, File Mp3Files) {
-        this.Artist = Artist;
-        this.Title = Title;
-        this.Anime = Anime;
-        this.Mp3Files = Mp3Files;
-    }
+    private byte[] Mp3Files = null;
 
     /**
      * @return the Artist
@@ -73,15 +63,15 @@ public class Mp3Object implements Serializable{
     /**
      * @return the Mp3Files
      */
-    public File getMp3Files() {
+    public byte[] getMp3Files() {
         return Mp3Files;
     }
 
     /**
      * @param Mp3Files the Mp3Files to set
      */
-    public void setMp3Files(File Mp3Files) {
+    public void setMp3Files(byte[] Mp3Files) {
         this.Mp3Files = Mp3Files;
     }
-    
-   }
+
+}
