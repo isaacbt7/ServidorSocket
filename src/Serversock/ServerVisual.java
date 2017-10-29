@@ -19,6 +19,7 @@ public class ServerVisual extends javax.swing.JFrame {
 
     panelServidor ps = null;
     panelConfig pc = null;
+    static String puerto;
 
     /**
      * Creates new form ServerVisual
@@ -100,11 +101,11 @@ public class ServerVisual extends javax.swing.JFrame {
 
     private void itemServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemServerActionPerformed
         // TODO add your handling code here:
-        ps = new panelServidor();
         if (pc != null) {
-            System.out.println("pc es diferente de null -->" + pc.getPuerto());
-            ps.setter(pc.getPuerto());
+            System.out.println("jframe -->" + pc.getPuerto());
+            this.puerto = pc.getPuerto();
         }
+        ps = new panelServidor();
         ps.setSize(455, 300);
         ps.setLocation(5, 5);
         jpan.removeAll();
@@ -118,7 +119,6 @@ public class ServerVisual extends javax.swing.JFrame {
         if (ps != null) {
             ps.cerrar();
         }
-
         pc = new panelConfig();
         pc.setSize(455, 300);
         pc.setLocation(5, 5);
@@ -137,6 +137,10 @@ public class ServerVisual extends javax.swing.JFrame {
         jpan.revalidate();
         jpan.repaint();
 
+    }
+    
+    public String getpuerto(){
+        return this.puerto;
     }
 
     /**
