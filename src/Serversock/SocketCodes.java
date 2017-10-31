@@ -38,18 +38,19 @@ public class SocketCodes extends Thread {
     public SocketCodes(int port) {
         this.port = port;
         try {
-            System.out.println("creando servidor ");
             servidor = new ServerSocket(port);
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void run() {//creando Servidor. Puerto 5000.
+    public void run() {//creando Servidor. Puerto 5000.   
+        sonido s =new sonido();
         try {
             while (flagx) {
                 System.out.println("Esperando por archivos...");
                 sock = servidor.accept();
+                s.start();
                 System.out.println("cliente ip " + sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
                 extrayendo();
                 cerrarSocket();
@@ -89,13 +90,6 @@ public class SocketCodes extends Thread {
      */
     public int getPort() {
         return port;
-    }
-
-    /**
-     * @param port the port to set
-     */
-    public static void setPort(int port) {
-        SocketCodes.port = port;
     }
 
     public void cerrarSocket() {

@@ -26,7 +26,7 @@ public class ServerVisual extends javax.swing.JFrame {
      */
     public ServerVisual() {
         initComponents();
-        panimage();
+        panimage();//imagen que aparece cuando se abre el programa.
     }
 
     /**
@@ -101,23 +101,23 @@ public class ServerVisual extends javax.swing.JFrame {
 
     private void itemServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemServerActionPerformed
         // TODO add your handling code here:
-        if (pc != null) {
-            System.out.println("jframe -->" + pc.getPuerto());
+        if (pc != null) {//verificando que el objeto panelConfig este instanciado
+            //obteniendo la variable puerto de panelConfig y asignandola a la variable puerto de la clase actual.
             this.puerto = pc.getPuerto();
         }
-        ps = new panelServidor();
-        ps.setSize(455, 300);
-        ps.setLocation(5, 5);
-        jpan.removeAll();
-        jpan.add(ps);
+        ps = new panelServidor();//jpanel instancia
+        ps.setSize(455, 300);//asignando dimensiones de la ventana
+        ps.setLocation(5, 5);//asignando ubicacion
+        jpan.removeAll();//limpiando panel
+        jpan.add(ps);//agregan jframe al panel
         jpan.revalidate();
         jpan.repaint();
     }//GEN-LAST:event_itemServerActionPerformed
 
     private void itemconfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemconfigActionPerformed
         // TODO add your handling code here:
-        if (ps != null) {
-            ps.cerrar();
+        if (ps != null) {//verificando que el objeto panelServidor este instanciado.
+            ps.cerrar();//cerrando servidor (serverSockect)
         }
         pc = new panelConfig();
         pc.setSize(455, 300);

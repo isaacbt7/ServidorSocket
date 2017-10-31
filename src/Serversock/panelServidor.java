@@ -16,9 +16,11 @@ import java.util.logging.Logger;
  * @author Chack
  */
 public class panelServidor extends javax.swing.JPanel {
+
     SocketCodes sc = null;
     Thread tr = null;
     String puerto = "5000";//puerto por defecto
+
     /**
      * Creates new form panelServidor
      */
@@ -26,7 +28,7 @@ public class panelServidor extends javax.swing.JPanel {
         initComponents();
         setter();
         //creando servidor y convirtiendo puerto string a int.
-        System.out.println("puerto antes de usarse"+puerto);
+        System.out.println("puerto antes de usarse" + puerto);
         sc = new SocketCodes(Integer.parseInt(puerto));//
         tr = new Thread(sc);
     }
@@ -156,7 +158,7 @@ public class panelServidor extends javax.swing.JPanel {
         if (Bstartstop.getText().equalsIgnoreCase("Iniciar")) {
             Lstatus.setText("Online");
             Lstatus.setForeground(new Color(21, 155, 68));
-            Bstartstop.setText("Detener");    
+            Bstartstop.setText("Detener");
             SocketCodes.flagx = true;
             tr.start();
 
@@ -186,8 +188,7 @@ public class panelServidor extends javax.swing.JPanel {
     }//GEN-LAST:event_BstartstopActionPerformed
     public void setter() {
         ServerVisual sv = new ServerVisual();
-        if(sv.getpuerto()!=null){
-            System.out.println("puerto visual "+sv.getpuerto());
+        if (sv.getpuerto() != null) {
             this.puerto = sv.getpuerto();
         }
         //obteniendo ip
@@ -200,16 +201,11 @@ public class panelServidor extends javax.swing.JPanel {
             Logger.getLogger(ServerVisual.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void setpuerto(String puerto){
-        this.puerto = puerto;
-        System.out.println("puerto en el servidor "+this.puerto);
-    }
-    
-    public void cerrar(){
+
+    public void cerrar() {
         sc.cerrarServidor();
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bstartstop;
