@@ -45,12 +45,15 @@ public class SocketCodes extends Thread {
     }
 
     public void run() {//creando Servidor. Puerto 5000.   
-        sonido s =new sonido();
+        sonidoThread st ;
         try {
             while (flagx) {
                 System.out.println("Esperando por archivos...");
                 sock = servidor.accept();
-                s.start();
+                //it.start();
+                st =new sonidoThread();
+                st.start();//ejecuntando sonidoThread
+                //ips = sock.getRemoteSocketAddress().toString().replace("/", " ").trim();//capturando la ultima ip conectada
                 System.out.println("cliente ip " + sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
                 extrayendo();
                 cerrarSocket();
@@ -70,11 +73,17 @@ public class SocketCodes extends Thread {
                 in = sock.getInputStream();
                 obis = new ObjectInputStream(in);
                 tags = (Mp3Object) obis.readObject();
-                String kk = Paths.get(System.getProperty("user.home"), tags.getArtist() + " - " + tags.getTitle() + ".mp3").toString();
-                FileOutputStream out = new FileOutputStream(kk);
-                out.write(tags.getMp3Files());
-                out.close();
-                in.close();
+                
+                if(tags.getArtist()!=null && tags.getTitle()!=null){//evitando crear un archivo nulo.
+                    String path = Paths.get(System.getProperty("user.home"), tags.getArtist() + " - " + tags.getTitle() + ".mp3").toString();
+                FileOutputStream out = new FileOutputStream(path);
+                    out.write(tags.getMp3Files());
+                    System.out.println("entrooo");
+                    out.close();
+                    in.close();
+                }
+                
+                
         } catch (NullPointerException e) {
             System.out.println("Error -->Extrayendo -->" + e.getMessage());
             //cerrarServidor();

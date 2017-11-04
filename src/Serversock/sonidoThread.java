@@ -21,9 +21,9 @@ import sun.audio.AudioStream;
  *
  * @author Chack
  */
-public class sonido extends Thread {
+public class sonidoThread extends Thread {
 
-    public sonido() {
+    public sonidoThread() {
 
     }
 
@@ -36,9 +36,9 @@ public class sonido extends Thread {
             AudioStream as = new AudioStream(file);
             AudioPlayer.player.start(as);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(sonido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonidoThread.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(sonido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonidoThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

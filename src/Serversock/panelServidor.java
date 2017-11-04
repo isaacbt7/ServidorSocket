@@ -112,9 +112,7 @@ public class panelServidor extends javax.swing.JPanel {
                             .addComponent(Lserver, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Lstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(111, 111, 111))
+                            .addComponent(Lstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Tremote, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Lp1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,7 +203,7 @@ public class panelServidor extends javax.swing.JPanel {
     public void cerrar() {
         sc.cerrarServidor();
     }
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bstartstop;
@@ -218,6 +216,6 @@ public class panelServidor extends javax.swing.JPanel {
     private javax.swing.JLabel Lpuerto;
     private javax.swing.JLabel Lserver;
     private javax.swing.JLabel Lstatus;
-    private javax.swing.JLabel Tremote;
+    public static javax.swing.JLabel Tremote;
     // End of variables declaration//GEN-END:variables
 }
