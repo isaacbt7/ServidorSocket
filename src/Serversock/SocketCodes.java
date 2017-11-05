@@ -11,11 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,16 +43,19 @@ public class SocketCodes extends Thread {
     }
 
     public void run() {//creando Servidor. Puerto 5000.   
-        sonidoThread st ;
+        sonidoThread st;
+        ipThread it;
         try {
             while (flagx) {
                 System.out.println("Esperando por archivos...");
                 sock = servidor.accept();
-                //it.start();
-                st =new sonidoThread();
+                it = new ipThread();
+                it.setIpex(sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
+                it.run();
+                st = new sonidoThread();
                 st.start();//ejecuntando sonidoThread
                 //ips = sock.getRemoteSocketAddress().toString().replace("/", " ").trim();//capturando la ultima ip conectada
-                System.out.println("cliente ip " + sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
+                //System.out.println("cliente ip " + sock.getRemoteSocketAddress().toString().replace("/", " ").trim());
                 extrayendo();
                 cerrarSocket();
                 System.out.println("A recibido un archivo");
@@ -70,20 +71,17 @@ public class SocketCodes extends Thread {
     public void extrayendo() {
         tags = new Mp3Object();
         try {
-                in = sock.getInputStream();
-                obis = new ObjectInputStream(in);
-                tags = (Mp3Object) obis.readObject();
-                
-                if(tags.getArtist()!=null && tags.getTitle()!=null){//evitando crear un archivo nulo.
-                    String path = Paths.get(System.getProperty("user.home"), tags.getArtist() + " - " + tags.getTitle() + ".mp3").toString();
+            in = sock.getInputStream();
+            obis = new ObjectInputStream(in);
+            tags = (Mp3Object) obis.readObject();
+            if (tags.getArtist() != null && tags.getTitle() != null) {//evitando crear un archivo nulo.
+                String path = Paths.get(System.getProperty("user.home"), tags.getArtist() + " - " + tags.getTitle() + ".mp3").toString();
                 FileOutputStream out = new FileOutputStream(path);
-                    out.write(tags.getMp3Files());
-                    System.out.println("entrooo");
-                    out.close();
-                    in.close();
-                }
-                
-                
+                out.write(tags.getMp3Files());
+                out.close();
+                in.close();
+            }
+
         } catch (NullPointerException e) {
             System.out.println("Error -->Extrayendo -->" + e.getMessage());
             //cerrarServidor();
@@ -109,11 +107,11 @@ public class SocketCodes extends Thread {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void cerrarServidor(){
+
+    public void cerrarServidor() {
         try {
             servidor.close();
-            System.out.println("cerrando servidor "+servidor.isClosed());
+            System.out.println("cerrando servidor " + servidor.isClosed());
         } catch (IOException ex) {
             Logger.getLogger(SocketCodes.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -30,7 +30,6 @@ public class sonidoThread extends Thread {
     @Override
     public void run() {
         String path = Paths.get(System.getProperty("user.dir"),"\\src\\Serversock\\audios\\levelup.wav").toString();
-        System.out.println("ruta del audio "+path);
         try {
             InputStream file = new FileInputStream(new File(path));
             AudioStream as = new AudioStream(file);

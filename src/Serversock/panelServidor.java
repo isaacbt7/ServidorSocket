@@ -28,7 +28,7 @@ public class panelServidor extends javax.swing.JPanel {
         initComponents();
         setter();
         //creando servidor y convirtiendo puerto string a int.
-        System.out.println("puerto antes de usarse" + puerto);
+        //System.out.println("puerto antes de usarse " + puerto);
         sc = new SocketCodes(Integer.parseInt(puerto));//
         tr = new Thread(sc);
     }
@@ -178,7 +178,7 @@ public class panelServidor extends javax.swing.JPanel {
                     }
                     if (!tr.isAlive()) {
                         tr = new Thread(sc);
-                        System.out.println("nuevo hilo " + tr.getName());
+                        //System.out.println("nuevo hilo " + tr.getName());
                     }
                 }
             }
@@ -203,7 +203,11 @@ public class panelServidor extends javax.swing.JPanel {
     public void cerrar() {
         sc.cerrarServidor();
     }
-    
+
+    public static void setTremote(String ipex) {//
+        Tremote.setText(ipex);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bstartstop;
